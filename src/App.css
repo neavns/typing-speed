@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Nanum Gothic'
 }
 
 .App-logo {
@@ -24,15 +25,18 @@
   color: white;
 }
 
+#main-app {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5rem;
+  width: 100%;
+}
+
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main {
+  width: 50%;
 }
