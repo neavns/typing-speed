@@ -1,0 +1,30 @@
+.list {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.word {
+  padding-left: .25rem;
+  padding-right: .25rem;
+  font-size: 2rem;
+}
+
+.word:first-of-type {
+  padding-left: 0;
+}
+
+.use-rtl {
+  direction: rtl;
+}
+.use-ltr {
+  direction: ltr;
+}
+
+.correct {
+  color: #778da9;;
+}
+
+.incorrect {
+  color: #778da9;;
+  text-decoration:line-through;
+}

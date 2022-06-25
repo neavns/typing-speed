@@ -1,17 +1,42 @@
-.input {
-font-family: 'Nanum Gothic';
+.wrapper {
+  font-family: 'Nanum Gothic';
   border: 0;
   padding: 20px 0;
   font-size: 2rem;
   font-weight: 600;
   border-radius: 5px;
-  text-align: center;
-  color: #eeeeee;
-  background: #494e58;
   width: 100%;
-  box-shadow: -2px 2px 20px 3px #1a1f2c;
+  display: flex;
+  flex-direction: row;
+  background: #1a1f2b;
+}
+
+.input {
+  font-family: 'Nanum Gothic';
+  border: 0;
+  font-size: 2rem;
+  text-align: right;
+  color: #0086a3;
+  padding: 0;
+  background: 0;
+}
+
+.form {
+  display: inline;
 }
 
 .input:focus {
   outline: 0;
+}
+
+.section2 {
+  overflow: hidden;
+}
+
+.section {
+  width: 50%;
+}
+
+.incorrect {
+  text-decoration: line-through;
 }

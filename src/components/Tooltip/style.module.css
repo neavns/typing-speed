@@ -1,0 +1,38 @@
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fad000;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #0e1b2b;
+  font-size: 1rem;
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+.tooltip:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 10px 10px 0;
+  border-color: #fad000 transparent transparent;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+
+@keyframes bounce {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+
+  50% {
+    transform: translate(-50%, -25px);
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}

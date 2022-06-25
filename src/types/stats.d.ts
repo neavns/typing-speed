@@ -5,4 +5,4 @@ type Stats = {
   accuracy: number
 }
 
-export { Stats }
+export default Stats

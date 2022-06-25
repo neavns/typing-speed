@@ -1,8 +1,8 @@
 .timer {
   background: #eee;
-  width: 200px;
+  width: 120px;
+  height: 120px;
   font-weight: 700;
-  height: 200px;
   color: #282c34;
   border-radius: 50%;
   display: flex;
@@ -11,6 +11,7 @@
   flex-direction: column;
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
 }
 
 .timer:hover {
@@ -20,9 +21,29 @@
 }
 
 .time {
-  font-size: 3em;
+  font-size: 2em;
 }
 
 .label {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
+
+.svg {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.svg_circle {
+  fill: none; 
+  stroke: #FFD000; 
+  stroke-width: 4; 
+  stroke-dasharray: 60;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  transition: all 1s;
+}
+
