@@ -4,7 +4,7 @@
 
 # Demo
 
-![alt text](./public/demo.gif "Demo")
+![alt text](https://user-images.githubusercontent.com/32618877/175827918-0f0cf6f9-18b2-4683-b5a3-b28c8e99b285.gif "Demo")
 
 # Getting Started
 
