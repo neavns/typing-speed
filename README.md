@@ -2,7 +2,7 @@
 
 ### This is a typing speed test app inspired by [LiveChat.com](https://www.livechat.com/typing-speed-test) built in React + Typescript. I really liked the approach they took and decided to recreate it.
 
-# Demo
+# [Live Demo](https://neavns.github.io/typing-speed/)
 
 ![alt text](https://user-images.githubusercontent.com/32618877/175827918-0f0cf6f9-18b2-4683-b5a3-b28c8e99b285.gif "Demo")
 
