@@ -1,16 +1,35 @@
-import { MouseEventHandler } from 'react'
+import { useState, useEffect } from 'react'
 import style from './style.module.css'
 
 interface Props {
   time: number,
   label?: string,
-  onClick: MouseEventHandler<HTMLDivElement>
+  onClick?: () => void,
+  onFinish?: () => void,
+  onHover?: () => void,
+  onChange: (time:number) => void,
+  start: boolean
 }
 
-const Counter: React.FunctionComponent<Props> = ({ time, label, onClick }) => {
-  return <div className={style.timer} onClick={onClick}>
+const Counter: React.FunctionComponent<Props> = ({ time, label, onChange, onClick, onFinish, start, onHover }) => {
+
+  useEffect(() => {
+    let isMounted = true
+    if(!start) return 
+    if(time === 0) {
+      onFinish?.()
+      return
+    }
+    const interval = setInterval(() => isMounted && onChange(time - 1), 1000)
+    return () => {
+      clearInterval(interval)
+      isMounted = false
+    }
+  }, [time, start])
+  
+
+  return <div className={style.timer} onClick={onClick} onMouseEnter={onHover} onMouseLeave={onHover}>
     <svg className={style.svg}>
-      {/* <circle className={[style.svg_circle, style.static_circle].join(' ')} cx="50" cy="50" r="48"></circle> */}
       <circle style={{ strokeDashoffset: 60 - time }} className={[style.svg_circle, style.progress_circle].join(' ')} cx="50%" cy="50%" r="48%" pathLength={60}></circle>
     </svg>
     <span className={style.time}>{time}</span>

@@ -1,8 +1,5 @@
 import type Word from '../types/word'
 
-const randomiseWords = (words: string[]): Word[] => {
-  const randomisedWords = words.sort(() => Math.random() - 0.5)
-  return randomisedWords.map((w => ({ text: w })))
-}
+const randomiseWords = (words: Word[]): Word[] => words.sort(() => Math.random() - 0.5)
 
 export default randomiseWords

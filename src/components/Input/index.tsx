@@ -8,10 +8,11 @@ interface Props {
   onSpace: (e: KeyboardEvent) => void,
   focus: boolean,
   onBlur: () => void,
-  className?: string
+  className?: string,
+  disabled?: boolean,
 }
 
-const Input: React.FunctionComponent<Props> = ({ value, onChange, onSpace, size, focus, onBlur, className = '' }) => {
+const Input: React.FunctionComponent<Props> = ({ value, onChange, onSpace, size, focus, onBlur, className = '', disabled = false }) => {
   const [classes, setClasses] = useState(className)
   const ref = useRef<HTMLInputElement>(null)
   useEffect(() => {
@@ -31,7 +32,7 @@ const Input: React.FunctionComponent<Props> = ({ value, onChange, onSpace, size,
     setClasses(classString)
   }, [className])
 
-  return <input ref={ref} className={[style.input, classes].join(' ')} type="text"  onChange={onChange} value={value} size={size} onBlur={onBlur} />
+  return <input ref={ref} className={[style.input, classes].join(' ')} type="text"  onChange={onChange} value={value} size={size} onBlur={onBlur} disabled={disabled} />
 }
 
 export default Input

@@ -1,22 +1,21 @@
-import { useState, useEffect, useRef, ChangeEvent, ChangeEventHandler } from 'react';
-import './App.css';
+import { useState, useEffect, ChangeEvent, ChangeEventHandler } from 'react'
+import './App.css'
 
-import Timer from './components/Timer';
-import Input from './components/Input';
+import Timer from './components/Timer'
+import Input from './components/Input'
 
 import words from './utils/words'
 import isCorrectWord from './utils/isCorrectWord'
 import randomiseWords from './utils/randomiseWords'
+import processWord from './utils/porcessWord'
 
-import type Stats from './types/stats';
-import type Word from './types/word';
-import WordList from './components/WordList';
-import StatsList from './components/StatsList';
-import StatTile from './components/StatsList/StatTile';
-import Tooltip from './components/Tooltip';
-
-const randomisedWords = randomiseWords(words)
-
+import type Stats from './types/stats'
+import type Word from './types/word'
+import WordList from './components/WordList'
+import StatsList from './components/StatsList'
+import StatTile from './components/StatsList/StatTile'
+import Tooltip from './components/Tooltip'
+import Footer from './components/Footer'
 
 function App() {
   const [stats, setStats] = useState<Stats>({
@@ -25,34 +24,30 @@ function App() {
     totalWords: 0,
     accuracy: 0
   })
-  const [state, setState] = useState<Word[]>(randomisedWords)
+  const [state, setState] = useState<Word[]>([])
   const [inputValue, setInputValue] = useState<string>('')
   const [time, setTime] = useState<number>(60)
   const [isRunning, setIsRunning] = useState<boolean>(false)
-  const intervalRef = useRef<any>(null)
   const [typedWords, setTypedWords] = useState<Word[]>([])
-  const [currentWord, setCurrentWord] = useState<Word>(randomisedWords[0])
+  const [currentWord, setCurrentWord] = useState<Word>({ text: '' })
   const [focusInput, setFocusInput] = useState<boolean>(false)
   const [inputClassName, setInputClassName] = useState<string>('')
+  const [isDisabledInput, setIsDisabledInput] = useState<boolean>(false)
+  const [timerLabel, setTimerLabel] = useState<string>('seconds')
+  const [showTooltip, setShowTooltip] = useState<boolean>(true)
 
   useEffect(() => {
-    if(time === 0) {
-      clearInterval(intervalRef.current)
-      return
-    }
+    getWords()
+  }, [])
+  
+  const getWords = (): void => {
+    const randomisedWords: Word[] = randomiseWords(words)
+    setState(randomisedWords)
+    setCurrentWord(randomisedWords[0])
+  }
 
-    if(isRunning) {
-      intervalRef.current = setInterval(() => {
-        setTime(time => time - 1)
-      }, 1000)
-    } else {
-      clearInterval(intervalRef.current)
-    }
-
-    return () => clearInterval(intervalRef.current)
-  }, [isRunning, time])
-
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e: ChangeEvent<HTMLInputElement>): void => {
+    startTimer()
     const value = e.target.value.trim()
     validateInput(value)
     setInputValue(value)
@@ -61,24 +56,7 @@ function App() {
     setState([word, ...state])
   }
 
-  const processWord = (input: string, word: Word): Word => {
-    let newWord = { ...word }
-
-    for(let i = 0; i < input.length; i++) {
-      if(input[i] === word.text[i]) {
-        newWord.text = newWord.text.slice(1)
-      } else {
-        break
-      }
-    }
-    return newWord
-  }
-
-  const handleStartStop = () => {
-    setIsRunning(!isRunning)
-  }
-
-  const handleSpaceKeyPress = (e: KeyboardEvent) => {
+  const handleSpaceKeyPress = (e: KeyboardEvent): void => {
     if(e.key !== ' ' || !inputValue) return
     const isCorrect = isCorrectWord(inputValue, currentWord?.text || '')
     state.shift()
@@ -89,7 +67,7 @@ function App() {
     updateStats(isCorrect)
   }
 
-  const updateStats = (isCorrect: boolean) => {
+  const updateStats = (isCorrect: boolean): void => {
     const correctWords = isCorrect ? stats.correctWords + 1 : stats.correctWords
     const incorrectWords = isCorrect ? stats.incorrectWords : stats.incorrectWords + 1
     const totalWords = stats.totalWords + 1
@@ -104,7 +82,7 @@ function App() {
 
   const handleInputFocus = () => setFocusInput(!focusInput)
 
-  const validateInput = (input: string) => {
+  const validateInput = (input: string): void => {
     if(!currentWord.text.startsWith(input)) {
       setInputClassName('incorrect')
     } else {
@@ -112,35 +90,71 @@ function App() {
     }
   }
 
-  const reset = () => {
-    // todo - reset app when clicking on timer
-    // todo - start app when user starts typing 
+  const startTimer = (): void => {
+    if(!isRunning) setIsRunning(true)
+    setShowTooltip(false)
   }
+
+  const reset = (): void => {
+    setIsRunning(false)
+    setTypedWords([])
+    setShowTooltip(true)
+    setTime(60)
+    setTimerLabel('seconds')
+    setInputValue('')
+    getWords()
+    setStats({
+      correctWords: 0,
+      incorrectWords: 0,
+      totalWords: 0,
+      accuracy: 0
+    })
+  }
+
+  const onTimeUp = (): void => {
+    setIsRunning(false)
+    setIsDisabledInput(true)
+  }
+
+  const onTimerHover = (): void => {
+    if(isRunning || time === 0) setTimerLabel(timerLabel === 'seconds' ? 'restart?' : 'seconds')
+  }
+  const handleTimerChange = (time: number): void => setTime(time)
 
   return (
     <div className="App">
-      <header className="App-header">
         <section id='main-app'>
+          <h1>Test your typing speed!</h1>
           <div className="stats">
             <StatsList>
-              <Timer time={time} label='seconds' onClick={handleStartStop} />
+              <Timer time={time} label={timerLabel} onFinish={onTimeUp} onChange={handleTimerChange} onClick={reset} start={isRunning} onHover={onTimerHover} />
               <StatTile stat={stats.correctWords} label='wpm' />
-              <StatTile stat={stats.totalWords} label='attemps' />
+              <StatTile stat={stats.totalWords} label='attempts' />
               <StatTile stat={stats.accuracy} label='% accuracy' />
             </StatsList>
           </div>
           <div className='main' onClick={handleInputFocus}>
-            { !isRunning && <Tooltip label='Start typing' /> }
+            { showTooltip && <Tooltip label='Start typing' /> }
             <section className='section section1'>
               <WordList words={typedWords} overflowDirection='rtl' />
-              <Input className={inputClassName} value={inputValue} onChange={handleInputChange} onSpace={handleSpaceKeyPress} size={(inputValue.length || 1)} focus={focusInput} onBlur={handleInputFocus} />
+              <Input 
+                className={inputClassName} 
+                value={inputValue} 
+                onChange={handleInputChange} 
+                onSpace={handleSpaceKeyPress} 
+                size={(inputValue.length || 1)} 
+                focus={focusInput} 
+                onBlur={handleInputFocus} 
+                disabled={isDisabledInput}
+                />
             </section>
             <section className='section section2'>
               <WordList words={state} />
             </section>
           </div>
+          { time === 0 && <span className='timeup'>Time is up! Click on the timer to restart</span> }
         </section>
-      </header>
+        <Footer />
     </div>
   );
 }

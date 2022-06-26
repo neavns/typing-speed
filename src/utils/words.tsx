@@ -1,4 +1,6 @@
-const words = [
+import type Word from "../types/word"
+
+const words: string[] = [
   "illustrious",
   "precious",
   "bubble",
@@ -24,7 +26,7 @@ const words = [
   "material",
   "balance",
   "ashamed",
-  "wide-eyed",
+  "shoe",
   "challenge",
   "sigh",
   "rampant",
@@ -332,14 +334,14 @@ const words = [
   "mitten",
   "hover",
   "bare",
-  "long-term",
+  "snake",
   "verse",
   "enchanted",
   "sassy",
   "delay",
   "arrest",
   "private",
-  "old-fashioned",
+  "please",
   "stick",
   "easy",
   "shelter",
@@ -501,5 +503,9 @@ const words = [
   "ball"
 ]
 
-export default words
+const stringsToWords = (words: string[]): Word[] => words.map((word: string) => ({ text: word }))
+
+export default stringsToWords(words)
+
+export { stringsToWords }
 
