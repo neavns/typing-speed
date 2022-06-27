@@ -26,11 +26,11 @@ function App() {
   })
   const [state, setState] = useState<Word[]>([])
   const [inputValue, setInputValue] = useState<string>('')
-  const [time, setTime] = useState<number>(60)
+  const [time, setTime] = useState<number>(10)
   const [isRunning, setIsRunning] = useState<boolean>(false)
   const [typedWords, setTypedWords] = useState<Word[]>([])
   const [currentWord, setCurrentWord] = useState<Word>({ text: '' })
-  const [focusInput, setFocusInput] = useState<boolean>(false)
+  const [focusInput, setFocusInput] = useState<boolean>(true)
   const [inputClassName, setInputClassName] = useState<string>('')
   const [isDisabledInput, setIsDisabledInput] = useState<boolean>(false)
   const [timerLabel, setTimerLabel] = useState<string>('seconds')
@@ -103,6 +103,8 @@ function App() {
     setTimerLabel('seconds')
     setInputValue('')
     getWords()
+    setIsDisabledInput(false)
+    setFocusInput(true)
     setStats({
       correctWords: 0,
       incorrectWords: 0,
@@ -114,6 +116,7 @@ function App() {
   const onTimeUp = (): void => {
     setIsRunning(false)
     setIsDisabledInput(true)
+    setFocusInput(false)
   }
 
   const onTimerHover = (): void => {
