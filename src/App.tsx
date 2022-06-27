@@ -26,7 +26,7 @@ function App() {
   })
   const [state, setState] = useState<Word[]>([])
   const [inputValue, setInputValue] = useState<string>('')
-  const [time, setTime] = useState<number>(10)
+  const [time, setTime] = useState<number>(60)
   const [isRunning, setIsRunning] = useState<boolean>(false)
   const [typedWords, setTypedWords] = useState<Word[]>([])
   const [currentWord, setCurrentWord] = useState<Word>({ text: '' })
